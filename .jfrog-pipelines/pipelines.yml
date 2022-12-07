@@ -10,8 +10,8 @@ resources:
   - name: dbp_image
     type: Image
     configuration:
-      registry: {{ .Values.dockerRegistry }}       # <-- Docker Registry integration
-      sourceRepository: docker_local               # <-- required if Artifactory integration is used instead of Docker Registry integration
+      registry: {{ .Values.artifactory }}       # <-- Artifactory integration
+      sourceRepository: {{ .Values.sourceRepository }}           
       imageName: {{ .Values.imageName }}  
       imageTag: latest
       autoPull: true
@@ -19,14 +19,14 @@ resources:
   - name: dbp_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.dockerRegistry }}
+      sourceArtifactory: {{ .Values.artifactory }}
       buildName: dbp_build
       buildNumber: 1    
 
   - name: dbp_promoted_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.dockerRegistry }}
+      sourceArtifactory: {{ .Values.artifactory }}
       buildName: dbp_build
       buildNumber: 1
       
@@ -40,12 +40,12 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: {{ .Values.dockerRegistry }}{{ .Values.imageName }}
+          dockerImageName: {{ .Values.artifactory }}{{ .Values.imageName }}
           dockerImageTag: ${run_number}
           inputResources:
             - name: dbp_repo
           integrations:
-            - name: {{ .Values.dockerRegistry }}                            
+            - name: {{ .Values.artifactory }}                            
 
       - name: docker_push
         type: DockerPush
@@ -53,7 +53,7 @@ pipelines:
           affinityGroup: dbp_group
           targetRepository: docker-local
           integrations:
-            - name: {{ .Values.dockerRegistry }}                            
+            - name: {{ .Values.artifactory }}                            
           inputSteps:
             - name: docker_build
           outputResources:
@@ -72,7 +72,7 @@ pipelines:
         configuration:
           targetRepository: demo-pipelines
           integrations:
-            - name: {{ .Values.dockerRegistry }}
+            - name: {{ .Values.artifactory }}
           inputResources:
             - name: dbp_build_info
           outputResources:

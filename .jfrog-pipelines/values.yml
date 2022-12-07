@@ -3,3 +3,4 @@ gitProvider: int_github_ac
 dockerRegistry: int_docker_registry
 repoPath: ankushchadha/jfrog-pipelines-docker-sample
 imageName: actest1234.jfrog.io/docker-virtual/sampleimage
+sourceRepository: docker-virtual
