@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: {{ .Values.dockerRegistry }}       # <-- Docker Registry integration
       sourceRepository: docker_local               # <-- required if Artifactory integration is used instead of Docker Registry integration
-      imageName: {{ .Values.dockerRegistry }}{{ .Values.imageName }}  
+      imageName: {{ .Values.imageName }}  
       imageTag: latest
       autoPull: true
       
