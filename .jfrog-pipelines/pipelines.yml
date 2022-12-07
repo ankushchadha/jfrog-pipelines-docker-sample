@@ -40,7 +40,7 @@ pipelines:
           affinityGroup: dbp_group
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: {{ .Values.artifactory }}{{ .Values.imageName }}
+          dockerImageName: {{ .Values.imageName }}
           dockerImageTag: ${run_number}
           inputResources:
             - name: dbp_repo
